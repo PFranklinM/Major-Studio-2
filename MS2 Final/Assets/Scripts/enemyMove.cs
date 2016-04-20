@@ -59,7 +59,7 @@ public class enemyMove : MonoBehaviour {
 
 			moveCounter += Time.deltaTime;
 
-			if (moveCounter > 1) {
+			if (moveCounter > 2) {
 				moveCounter = 0;
 				moveAmount = -moveAmount;
 			}
@@ -75,22 +75,24 @@ public class enemyMove : MonoBehaviour {
 
 			moveCounter += Time.deltaTime;
 
-			if (moveCounter > 1) {
+			if (moveCounter > 2) {
 				moveCounter = 0;
 				moveAmount = -moveAmount;
 			}
 
 			moving.x += moveAmount * Time.deltaTime;
 
+			moving.z = 1f;
+
 			transform.position = moving;
 		}
 
-		if (Vector3.Distance (enemy.transform.position, reset1.transform.position) < 30) {
+		if (Vector3.Distance (enemy.transform.position, reset1.transform.position) < 20) {
 				moveNormal = true;
 				transform.position = origin;
 			}
 
-		if (Vector3.Distance (enemy.transform.position, reset2.transform.position) < 30) {
+		if (Vector3.Distance (enemy.transform.position, reset2.transform.position) < 20) {
 			moveNormal = true;
 			transform.position = origin;
 		}
