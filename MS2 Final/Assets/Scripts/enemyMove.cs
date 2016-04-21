@@ -13,7 +13,7 @@ public class enemyMove : MonoBehaviour {
 	public Vector3 startPos;
 	public Vector3 endPos;
 	public Vector3 dir;
-	private float radius = 20f;
+	private float radius = 25f;
 
 	private float moveAmount = 20f;
 
@@ -23,12 +23,53 @@ public class enemyMove : MonoBehaviour {
 
 	private bool moveNormal;
 
+	Rigidbody2D rb;
+
+	private SpriteRenderer spriteRenderer;
+
+	public Sprite regularRight;
+	public Sprite regularLeft;
+
+	public Sprite chasingRight1;
+	public Sprite chasingRight2;
+	public Sprite chasingRight3;
+	public Sprite chasingRight4;
+	public Sprite chasingRight5;
+
+	public Sprite chasingLeft1;
+	public Sprite chasingLeft2;
+	public Sprite chasingLeft3;
+	public Sprite chasingLeft4;
+	public Sprite chasingLeft5;
+
+
+	public SpriteRenderer renderer;
+
+	private float blinkAnimation;
+
+	private bool facingLeft;
+	private bool facingRight;
+
 	// Use this for initialization
 	void Start () {
 
+		rb = GetComponent<Rigidbody2D>();
+
+		renderer = GetComponent<SpriteRenderer>();
+
 		origin = transform.position;
 
+		blinkAnimation = 0.0f;
+
 		moveNormal = true;
+
+		enemy.SetActive (true);
+
+		spriteRenderer = GetComponent<SpriteRenderer> ();
+		if (spriteRenderer.sprite == null) {
+			spriteRenderer.sprite = regularRight;
+
+		}
 
 	}
 
@@ -39,7 +80,26 @@ public class enemyMove : MonoBehaviour {
 			transform.position.y,
 			transform.position.z);
 
+		if (moveAmount > 0) {
+			facingLeft = false;
+			facingRight = true;
+		}
+
+		if (moveAmount < 0) {
+			facingLeft = true;
+			facingRight = false;
+		}
+
+
 		if (Vector3.Distance (enemy.transform.position, player.transform.position) < radius) {
+
+			if (enemy.transform.position.x < player.transform.position.x) {
+				chasingRight ();
+			}
+
+			if (enemy.transform.position.x > player.transform.position.x) {
+				chasingLeft ();
+			}
 
 			moveNormal = false;
 
@@ -48,12 +108,13 @@ public class enemyMove : MonoBehaviour {
 			Vector3 playerPos = player.transform.position;
 
 			startPos = enemy.transform.position;
-
 			endPos = playerPos;
 
 			dir = endPos - startPos;
 
-			transform.position += dir * Time.deltaTime * 4.5f;
+			moving.z = 0f;
+
+			transform.position += dir * Time.deltaTime * 4f;
 
 		} else if(moveNormal == true) {
 
@@ -65,6 +126,8 @@ public class enemyMove : MonoBehaviour {
 			}
 
 			moving.x += moveAmount * Time.deltaTime;
+
+			moving.z = 0f;
 
 			transform.position = moving;
 		}
@@ -96,6 +159,14 @@ public class enemyMove : MonoBehaviour {
 			moveNormal = true;
 			transform.position = origin;
 		}
+
+		if (facingLeft == true && moveNormal == true) {
+			spriteRenderer.sprite = regularLeft;
+		}
+
+		if (facingRight == true && moveNormal == true) {
+			spriteRenderer.sprite = regularRight;
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D coll){
@@ -103,6 +174,56 @@ public class enemyMove : MonoBehaviour {
 			enemy.SetActive (false);
 
 			transform.position = origin;
+		}
+	}
+
+	void chasingRight(){
+		blinkAnimation += Time.deltaTime * 5;
+
+
+		if ((int)blinkAnimation % 2 == 4) {
+			spriteRenderer.sprite = chasingRight1;
+		}
+
+		if ((int)blinkAnimation % 2 == 3) {
+			spriteRenderer.sprite = chasingRight2;
+		}
+
+		if ((int)blinkAnimation % 2 == 2) {
+			spriteRenderer.sprite = chasingRight3;
+		}
+
+		if ((int)blinkAnimation % 2 == 1) {
+			spriteRenderer.sprite = chasingRight4;
+		}
+
+		if ((int)blinkAnimation % 2 == 0) {
+			spriteRenderer.sprite = chasingRight5;
+		}
+	}
+
+	void chasingLeft(){
+		blinkAnimation += Time.deltaTime * 5;
+
+
+		if ((int)blinkAnimation % 2 == 4) {
+			spriteRenderer.sprite = chasingLeft1;
+		}
+
+		if ((int)blinkAnimation % 2 == 3) {
+			spriteRenderer.sprite = chasingLeft2;
+		}
+
+		if ((int)blinkAnimation % 2 == 2) {
+			spriteRenderer.sprite = chasingLeft3;
+		}
+
+		if ((int)blinkAnimation % 2 == 1) {
+			spriteRenderer.sprite = chasingLeft4;
+		}
+
+		if ((int)blinkAnimation % 2 == 0) {
+			spriteRenderer.sprite = chasingLeft5;
 		}
 	}
 }

@@ -8,11 +8,7 @@ public class playerMove : MonoBehaviour {
 	public GameObject topCover;
 	public GameObject bottomCover;
 
-	public float moveAmount = 40f;
-
-	//pants not gray
-
-	//inverted (elements of the photo) photo for where the gravity flips
+	private float moveAmount = 50f;
 
 	Rigidbody2D rb;
 
@@ -27,19 +23,28 @@ public class playerMove : MonoBehaviour {
 
 	private SpriteRenderer spriteRenderer;
 
-	public Sprite standingLeft;
-	public Sprite standingRight;
-	public Sprite jumpingLeft;
-	public Sprite jumpingRight;
-	public Sprite runningLeft1;
-	public Sprite runningLeft2;
-	public Sprite runningRight1;
-	public Sprite runningRight2;
+	public Sprite standingLeftA;
+	public Sprite standingRightA;
+	public Sprite jumpingLeftA;
+	public Sprite jumpingRightA;
+	public Sprite runningLeft1A;
+	public Sprite runningLeft2A;
+	public Sprite runningRight1A;
+	public Sprite runningRight2A;
+
+	public Sprite standingLeftH;
+	public Sprite standingRightH;
+	public Sprite jumpingLeftH;
+	public Sprite jumpingRightH;
+	public Sprite runningLeft1H;
+	public Sprite runningLeft2H;
+	public Sprite runningRight1H;
+	public Sprite runningRight2H;
 
 	private bool facingLeft;
 	private bool facingRight;
 
-	private bool airborn;
+	public bool airborn;
 
 	public SpriteRenderer renderer;
 
@@ -75,11 +80,9 @@ public class playerMove : MonoBehaviour {
 
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		if (spriteRenderer.sprite == null) {
-			spriteRenderer.sprite = standingRight;
+			spriteRenderer.sprite = standingRightA;
 
 		}
-
-
 	}
 
 	// Update is called once per frame
@@ -88,6 +91,23 @@ public class playerMove : MonoBehaviour {
 		Vector3 moving = new Vector3 (transform.position.x,
 			transform.position.y,
 			transform.position.z);
+
+		if (top == true && facingLeft == true && airborn == false) {
+			spriteRenderer.sprite = standingLeftA;
+		}
+
+		if (top == true && facingRight == true && airborn == false) {
+			spriteRenderer.sprite = standingRightA;
+		}
+
+		if (bot == true && facingLeft == true && airborn == false) {
+			spriteRenderer.sprite = standingLeftH;
+		}
+
+		if (bot == true && facingRight == true && airborn == false) {
+			spriteRenderer.sprite = standingRightH;
+		}
+
 
 
 
@@ -98,25 +118,25 @@ public class playerMove : MonoBehaviour {
 			facingLeft = true;
 		}
 
-		if (Input.GetKey (KeyCode.A) && top == true) {
+		if (Input.GetKey (KeyCode.A) && top == true && airborn == false) {
 
 			runningLeftTop();
 
-		} else if (airborn == false && facingLeft == true) {
-			spriteRenderer.sprite = standingLeft;
+		} else if (Input.GetKeyUp (KeyCode.A) && airborn == false && facingLeft == true && top == true) {
+			spriteRenderer.sprite = standingLeftA;
 
 			runAnimation = 0;
 		}
 
-//		if (Input.GetKey (KeyCode.A) && bot == true) {
-//
-//			runningLeftBot();
-//
-//		} else if (airborn == false && facingLeft == true) {
-//			spriteRenderer.sprite = standingLeft;
-//
-//			runAnimation = 0;
-//		}
+		if (Input.GetKey (KeyCode.A) && bot == true && airborn == false) {
+
+			runningLeftBot();
+
+		} else if (Input.GetKeyUp (KeyCode.A) && airborn == false && facingLeft == true && bot == true) {
+			spriteRenderer.sprite = standingLeftH;
+
+			runAnimation = 0;
+		}
 
 
 
@@ -127,25 +147,25 @@ public class playerMove : MonoBehaviour {
 			facingLeft = false;
 		}
 
-		if (Input.GetKey (KeyCode.D) && top == true){
+		if (Input.GetKey (KeyCode.D) && top == true && airborn == false){
 
 			runningRightTop();
 
-		}else if (airborn == false && facingRight == true) {
-			spriteRenderer.sprite = standingRight;
+		}else if (Input.GetKeyUp (KeyCode.D) && airborn == false && facingRight == true && top == true) {
+			spriteRenderer.sprite = standingRightA;
 
 			runAnimation = 0;
 		}
 
-//		if (Input.GetKey (KeyCode.D) && bot == true){
-//
-//			runningRightBot();
-//
-//		}else if (airborn == false && facingRight == true) {
-//			spriteRenderer.sprite = standingRight;
-//
-//			runAnimation = 0;
-//		}
+		if (Input.GetKey (KeyCode.D) && bot == true && airborn == false){
+
+			runningRightBot();
+
+		}else if (Input.GetKeyUp (KeyCode.D) && airborn == false && facingRight == true && bot == true) {
+			spriteRenderer.sprite = standingRightH;
+
+			runAnimation = 0;
+		}
 
 
 
@@ -154,105 +174,133 @@ public class playerMove : MonoBehaviour {
 			airborn = true;
 		}
 
-		if (Input.GetKey (KeyCode.A) && airborn == true) {
+		if (Input.GetKeyDown (KeyCode.Space) && topGrounded == true) {
+			airborn = true;
+		}
+
+
+
+		if (Input.GetKey (KeyCode.A) && airborn == true && top == true) {
 
 			moving.x -= moveAmount * Time.deltaTime;
 
 			facingRight = false;
 			facingLeft = true;
 
-			spriteRenderer.sprite = jumpingLeft;
+			spriteRenderer.sprite = jumpingLeftA;
 		}
 
-		if (Input.GetKey (KeyCode.D) && airborn == true) {
+		if (Input.GetKey (KeyCode.A) && airborn == true && bot == true) {
+
+			moving.x -= moveAmount * Time.deltaTime;
+
+			facingRight = false;
+			facingLeft = true;
+
+			spriteRenderer.sprite = jumpingLeftH;
+		}
+
+
+
+		if (Input.GetKey (KeyCode.D) && airborn == true && top == true) {
 
 			moving.x += moveAmount * Time.deltaTime;
 
 			facingRight = true;
 			facingLeft = false;
 
-			spriteRenderer.sprite = jumpingRight;
+			spriteRenderer.sprite = jumpingRightA;
+		}
+
+		if (Input.GetKey (KeyCode.D) && airborn == true && bot == true) {
+
+			moving.x += moveAmount * Time.deltaTime;
+
+			facingRight = true;
+			facingLeft = false;
+
+			spriteRenderer.sprite = jumpingRightH;
 		}
 
 
 		if (Input.GetKeyDown (KeyCode.Space) && top == true
 			&& grounded == true && facingLeft == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, 75, 0);
+			rb.velocity = new Vector3(0, 80, 0);
 			grounded = false;
 			specialGrounded = true;
 
-			spriteRenderer.sprite = jumpingLeft;
+			spriteRenderer.sprite = jumpingLeftA;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space) && top == true
 			&& grounded == true && facingRight == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, 75, 0);
+			rb.velocity = new Vector3(0, 80, 0);
 			grounded = false;
 			specialGrounded = true;
 
-			spriteRenderer.sprite = jumpingRight;
+			spriteRenderer.sprite = jumpingRightA;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space) && top == true
 			&& topGrounded == true && facingLeft == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, 75, 0);
+			rb.velocity = new Vector3(0, 80, 0);
 			topGrounded = false;
 			specialGrounded = true;
 
-			spriteRenderer.sprite = jumpingLeft;
+			spriteRenderer.sprite = jumpingLeftA;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space) && top == true
 			&& topGrounded == true && facingRight == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, 75, 0);
+			rb.velocity = new Vector3(0, 80, 0);
 			topGrounded = false;
 			specialGrounded = true;
 
-			spriteRenderer.sprite = jumpingRight;
+			spriteRenderer.sprite = jumpingRightA;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space) && bot == true
 			&& grounded == true && facingLeft == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, -75, 0);
+			rb.velocity = new Vector3(0, -80, 0);
 			grounded = false;
 			specialGrounded = true;
 
-//			spriteRenderer.sprite = jumpingLeftBot;
+			spriteRenderer.sprite = jumpingLeftH;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space) && bot == true
 			&& grounded == true && facingRight == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, -75, 0);
+			rb.velocity = new Vector3(0, -80, 0);
 			grounded = false;
 			specialGrounded = true;
 
-//			spriteRenderer.sprite = jumpingRightBot;
+			spriteRenderer.sprite = jumpingRightH;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space) && bot == true
 			&& topGrounded == true && facingLeft == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, -75, 0);
+			rb.velocity = new Vector3(0, -80, 0);
 			topGrounded = false;
 			specialGrounded = true;
 
-//			spriteRenderer.sprite = jumpingLeftBot;
+			spriteRenderer.sprite = jumpingLeftH;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space) && bot == true &&
 			topGrounded == true && facingRight == true && airborn == true) {
 
-			rb.velocity = new Vector3(0, -75, 0);
+			rb.velocity = new Vector3(0, -80, 0);
 			topGrounded = false;
 			specialGrounded = true;
 
-//			spriteRenderer.sprite = jumpingRightBot;
+			spriteRenderer.sprite = jumpingRightH;
 		}
 
 		if (Input.GetKeyDown (KeyCode.W) && grounded == true && specialGrounded == false) {
@@ -304,18 +352,29 @@ public class playerMove : MonoBehaviour {
 		}
 
 		if (enemiesAttached == 0) {
-			moveAmount = 40;
+			moveAmount = 50;
+			renderer.color = new Color (255.0f, 255.0f, 255.0f, 1f);
 		}
 
 		if (enemiesAttached == 1) {
-			moveAmount = 20;
+			moveAmount = 25;
+			renderer.color = new Color (255.0f, 255.0f, 255.0f, 0.75f);
 		}
 
 		if (enemiesAttached == 2) {
 			moveAmount = 10;
+			renderer.color = new Color (0f, 255.0f, 0f, 1f);
 		}
 
 		transform.position = moving;
+
+//		if (top == true) {
+//			player.transform.rotation = Quaternion.Euler (0, 0, 0);
+//		}
+
+//		if (bot == true) {
+//			player.transform.rotation = Quaternion.Euler (0, 0, 180);
+//		}
 
 	}
 
@@ -372,28 +431,113 @@ public class playerMove : MonoBehaviour {
 
 
 	void runningRightTop(){
-		runAnimation += Time.deltaTime*14;
+
+		if (enemiesAttached == 0) {
+			runAnimation += Time.deltaTime * 14;
 
 
-		if((int)runAnimation%2==1){
-			spriteRenderer.sprite = runningRight1;
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningRight1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningRight2A;
+			}
 		}
 
-		if((int)runAnimation%2==0){
-			spriteRenderer.sprite = runningRight2;
+		if (enemiesAttached == 1) {
+			runAnimation += Time.deltaTime * 7;
+
+
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningRight1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningRight2A;
+			}
+		}
+
+		if (enemiesAttached == 2) {
+			runAnimation += Time.deltaTime * 3.5f;
+
+
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningRight1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningRight2A;
+			}
 		}
 	}
 
 	void runningLeftTop(){
+
+		if (enemiesAttached == 0) {
+			runAnimation += Time.deltaTime * 14;
+
+
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningLeft1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningLeft2A;
+			}
+		}
+
+		if (enemiesAttached == 1) {
+			runAnimation += Time.deltaTime * 7;
+
+
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningLeft1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningLeft2A;
+			}
+		}
+
+		if (enemiesAttached == 2) {
+			runAnimation += Time.deltaTime * 3.5f;
+
+
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningLeft1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningLeft2A;
+			}
+		}
+	}
+
+
+	void runningRightBot(){
 		runAnimation += Time.deltaTime*14;
 
 
 		if((int)runAnimation%2==1){
-			spriteRenderer.sprite = runningLeft1;
+			spriteRenderer.sprite = runningRight1H;
 		}
 
 		if((int)runAnimation%2==0){
-			spriteRenderer.sprite = runningLeft2;
+			spriteRenderer.sprite = runningRight2H;
+		}
+	}
+
+	void runningLeftBot(){
+		runAnimation += Time.deltaTime*14;
+
+
+		if((int)runAnimation%2==1){
+			spriteRenderer.sprite = runningLeft1H;
+		}
+
+		if((int)runAnimation%2==0){
+			spriteRenderer.sprite = runningLeft2H;
 		}
 	}
 }
