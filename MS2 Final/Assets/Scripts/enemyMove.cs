@@ -9,6 +9,8 @@ public class enemyMove : MonoBehaviour {
 
 	public GameObject reset1;
 	public GameObject reset2;
+	public GameObject reset3;
+	public GameObject reset4;
 
 	public Vector3 startPos;
 	public Vector3 endPos;
@@ -156,6 +158,16 @@ public class enemyMove : MonoBehaviour {
 			}
 
 		if (Vector3.Distance (enemy.transform.position, reset2.transform.position) < 20) {
+			moveNormal = true;
+			transform.position = origin;
+		}
+
+		if (Vector3.Distance (enemy.transform.position, reset3.transform.position) < 20) {
+			moveNormal = true;
+			transform.position = origin;
+		}
+
+		if (Vector3.Distance (enemy.transform.position, reset4.transform.position) < 20) {
 			moveNormal = true;
 			transform.position = origin;
 		}

@@ -5,8 +5,41 @@ public class playerMove : MonoBehaviour {
 
 	public GameObject player;
 
-	public GameObject topCover;
-	public GameObject bottomCover;
+	public GameObject topCover1;
+	public GameObject bottomCover1;
+
+	public GameObject topCover2;
+	public GameObject bottomCover2;
+
+	public GameObject topCover3;
+	public GameObject bottomCover3;
+
+	public GameObject topCover4;
+	public GameObject bottomCover4;
+
+	public GameObject topCover5;
+	public GameObject bottomCover5;
+
+	public GameObject topCover6;
+	public GameObject bottomCover6;
+
+	public GameObject topCover7;
+	public GameObject bottomCover7;
+
+	public GameObject topCover8;
+	public GameObject bottomCover8;
+
+	public GameObject topCover9;
+	public GameObject bottomCover9;
+
+	public GameObject topCover10;
+	public GameObject bottomCover10;
+
+	public GameObject topCover11;
+	public GameObject bottomCover11;
+
+	public GameObject topBackground;
+	public GameObject bottomBackground;
 
 	private float moveAmount = 50f;
 
@@ -17,6 +50,7 @@ public class playerMove : MonoBehaviour {
 
 	public bool grounded;
 	public bool topGrounded;
+	public bool botGrounded;
 	public bool specialGrounded;
 
 	private int enemiesAttached;
@@ -64,12 +98,38 @@ public class playerMove : MonoBehaviour {
 
 		grounded = true;
 		topGrounded = false;
+		botGrounded = false;
 		specialGrounded = true;
 
 		enemiesAttached = 0;
 
-		topCover.SetActive (false);
-		bottomCover.SetActive (true);
+		topCover1.SetActive (false);
+		topCover2.SetActive (false);
+		topCover3.SetActive (false);
+		topCover4.SetActive (false);
+		topCover5.SetActive (false);
+		topCover6.SetActive (false);
+		topCover7.SetActive (false);
+		topCover8.SetActive (false);
+		topCover9.SetActive (false);
+		topCover10.SetActive (false);
+		topCover11.SetActive (false);
+
+		topBackground.SetActive (true);
+
+		bottomCover1.SetActive (true);
+		bottomCover2.SetActive (true);
+		bottomCover3.SetActive (true);
+		bottomCover4.SetActive (true);
+		bottomCover5.SetActive (true);
+		bottomCover6.SetActive (true);
+		bottomCover7.SetActive (true);
+		bottomCover8.SetActive (true);
+		bottomCover9.SetActive (true);
+		bottomCover10.SetActive (true);
+		bottomCover11.SetActive (true);
+
+		bottomBackground.SetActive (false);
 
 		runAnimation = 0.0f;
 
@@ -178,6 +238,10 @@ public class playerMove : MonoBehaviour {
 			airborn = true;
 		}
 
+		if (Input.GetKeyDown (KeyCode.Space) && botGrounded == true) {
+			airborn = true;
+		}
+
 
 
 		if (Input.GetKey (KeyCode.A) && airborn == true && top == true) {
@@ -263,6 +327,26 @@ public class playerMove : MonoBehaviour {
 			spriteRenderer.sprite = jumpingRightA;
 		}
 
+		if (Input.GetKeyDown (KeyCode.Space) && top == true
+			&& botGrounded == true && facingLeft == true && airborn == true) {
+
+			rb.velocity = new Vector3(0, 80, 0);
+			botGrounded = false;
+			specialGrounded = true;
+
+			spriteRenderer.sprite = jumpingLeftA;
+		}
+
+		if (Input.GetKeyDown (KeyCode.Space) && top == true
+			&& botGrounded == true && facingRight == true && airborn == true) {
+
+			rb.velocity = new Vector3(0, 80, 0);
+			botGrounded = false;
+			specialGrounded = true;
+
+			spriteRenderer.sprite = jumpingRightA;
+		}
+
 		if (Input.GetKeyDown (KeyCode.Space) && bot == true
 			&& grounded == true && facingLeft == true && airborn == true) {
 
@@ -303,6 +387,26 @@ public class playerMove : MonoBehaviour {
 			spriteRenderer.sprite = jumpingRightH;
 		}
 
+		if (Input.GetKeyDown (KeyCode.Space) && bot == true
+			&& botGrounded == true && facingLeft == true && airborn == true) {
+
+			rb.velocity = new Vector3(0, -80, 0);
+			botGrounded = false;
+			specialGrounded = true;
+
+			spriteRenderer.sprite = jumpingLeftH;
+		}
+
+		if (Input.GetKeyDown (KeyCode.Space) && bot == true &&
+			botGrounded == true && facingRight == true && airborn == true) {
+
+			rb.velocity = new Vector3(0, -80, 0);
+			botGrounded = false;
+			specialGrounded = true;
+
+			spriteRenderer.sprite = jumpingRightH;
+		}
+
 		if (Input.GetKeyDown (KeyCode.W) && grounded == true && specialGrounded == false) {
 			moving.y = 2f;
 			rb.gravityScale = 15;
@@ -310,8 +414,33 @@ public class playerMove : MonoBehaviour {
 			top = true;
 			bot = false;
 
-			topCover.SetActive (false);
-			bottomCover.SetActive (true);
+			topCover1.SetActive (false);
+			topCover2.SetActive (false);
+			topCover3.SetActive (false);
+			topCover4.SetActive (false);
+			topCover5.SetActive (false);
+			topCover6.SetActive (false);
+			topCover7.SetActive (false);
+			topCover8.SetActive (false);
+			topCover9.SetActive (false);
+			topCover10.SetActive (false);
+			topCover11.SetActive (false);
+
+			topBackground.SetActive (true);
+
+			bottomCover1.SetActive (true);
+			bottomCover2.SetActive (true);
+			bottomCover3.SetActive (true);
+			bottomCover4.SetActive (true);
+			bottomCover5.SetActive (true);
+			bottomCover6.SetActive (true);
+			bottomCover7.SetActive (true);
+			bottomCover8.SetActive (true);
+			bottomCover9.SetActive (true);
+			bottomCover10.SetActive (true);
+			bottomCover11.SetActive (true);
+
+			bottomBackground.SetActive (false);
 		}
 
 		if (Input.GetKeyDown (KeyCode.S) && grounded == true && specialGrounded == false) {
@@ -321,32 +450,181 @@ public class playerMove : MonoBehaviour {
 			top = false;
 			bot = true;
 
-			topCover.SetActive (true);
-			bottomCover.SetActive (false);
+			topCover1.SetActive (true);
+			topCover2.SetActive (true);
+			topCover3.SetActive (true);
+			topCover4.SetActive (true);
+			topCover5.SetActive (true);
+			topCover6.SetActive (true);
+			topCover7.SetActive (true);
+			topCover8.SetActive (true);
+			topCover9.SetActive (true);
+			topCover10.SetActive (true);
+			topCover11.SetActive (true);
+
+			topBackground.SetActive (false);
+
+			bottomCover1.SetActive (false);
+			bottomCover2.SetActive (false);
+			bottomCover3.SetActive (false);
+			bottomCover4.SetActive (false);
+			bottomCover5.SetActive (false);
+			bottomCover6.SetActive (false);
+			bottomCover7.SetActive (false);
+			bottomCover8.SetActive (false);
+			bottomCover9.SetActive (false);
+			bottomCover10.SetActive (false);
+			bottomCover11.SetActive (false);
+
+			bottomBackground.SetActive (true);
 
 			enemiesAttached = 0;
 		}
 
 		if (Input.GetKeyDown (KeyCode.W) && topGrounded == true && specialGrounded == false) {
-			moving.y = 27f;
+			moving.y = 37f;
 			rb.gravityScale = 15;
 
 			top = true;
 			bot = false;
 
-			topCover.SetActive (false);
-			bottomCover.SetActive (true);
+			topCover1.SetActive (false);
+			topCover2.SetActive (false);
+			topCover3.SetActive (false);
+			topCover4.SetActive (false);
+			topCover5.SetActive (false);
+			topCover6.SetActive (false);
+			topCover7.SetActive (false);
+			topCover8.SetActive (false);
+			topCover9.SetActive (false);
+			topCover10.SetActive (false);
+			topCover11.SetActive (false);
+
+			topBackground.SetActive (true);
+
+			bottomCover1.SetActive (true);
+			bottomCover2.SetActive (true);
+			bottomCover3.SetActive (true);
+			bottomCover4.SetActive (true);
+			bottomCover5.SetActive (true);
+			bottomCover6.SetActive (true);
+			bottomCover7.SetActive (true);
+			bottomCover8.SetActive (true);
+			bottomCover9.SetActive (true);
+			bottomCover10.SetActive (true);
+			bottomCover11.SetActive (true);
+
+			bottomBackground.SetActive (false);
 		}
 
 		if (Input.GetKeyDown (KeyCode.S) && topGrounded == true && specialGrounded == false) {
-			moving.y = 23f;
+			moving.y = 33f;
 			rb.gravityScale = -15;
 
 			top = false;
 			bot = true;
 
-			topCover.SetActive (true);
-			bottomCover.SetActive (false);
+			topCover1.SetActive (true);
+			topCover2.SetActive (true);
+			topCover3.SetActive (true);
+			topCover4.SetActive (true);
+			topCover5.SetActive (true);
+			topCover6.SetActive (true);
+			topCover7.SetActive (true);
+			topCover8.SetActive (true);
+			topCover9.SetActive (true);
+			topCover10.SetActive (true);
+			topCover11.SetActive (true);
+
+			topBackground.SetActive (false);
+
+			bottomCover1.SetActive (false);
+			bottomCover2.SetActive (false);
+			bottomCover3.SetActive (false);
+			bottomCover4.SetActive (false);
+			bottomCover5.SetActive (false);
+			bottomCover6.SetActive (false);
+			bottomCover7.SetActive (false);
+			bottomCover8.SetActive (false);
+			bottomCover9.SetActive (false);
+			bottomCover10.SetActive (false);
+			bottomCover11.SetActive (false);
+
+			bottomBackground.SetActive (true);
+
+			enemiesAttached = 0;
+		}
+
+		if (Input.GetKeyDown (KeyCode.W) && botGrounded == true && specialGrounded == false) {
+			moving.y = -33f;
+			rb.gravityScale = 15;
+
+			top = true;
+			bot = false;
+
+			topCover1.SetActive (false);
+			topCover2.SetActive (false);
+			topCover3.SetActive (false);
+			topCover4.SetActive (false);
+			topCover5.SetActive (false);
+			topCover6.SetActive (false);
+			topCover7.SetActive (false);
+			topCover8.SetActive (false);
+			topCover9.SetActive (false);
+			topCover10.SetActive (false);
+			topCover11.SetActive (false);
+
+			topBackground.SetActive (true);
+
+			bottomCover1.SetActive (true);
+			bottomCover2.SetActive (true);
+			bottomCover3.SetActive (true);
+			bottomCover4.SetActive (true);
+			bottomCover5.SetActive (true);
+			bottomCover6.SetActive (true);
+			bottomCover7.SetActive (true);
+			bottomCover8.SetActive (true);
+			bottomCover9.SetActive (true);
+			bottomCover10.SetActive (true);
+			bottomCover11.SetActive (true);
+
+			bottomBackground.SetActive (false);
+		}
+
+		if (Input.GetKeyDown (KeyCode.S) && botGrounded == true && specialGrounded == false) {
+			moving.y = -37f;
+			rb.gravityScale = -15;
+
+			top = false;
+			bot = true;
+
+			topCover1.SetActive (true);
+			topCover2.SetActive (true);
+			topCover3.SetActive (true);
+			topCover4.SetActive (true);
+			topCover5.SetActive (true);
+			topCover6.SetActive (true);
+			topCover7.SetActive (true);
+			topCover8.SetActive (true);
+			topCover9.SetActive (true);
+			topCover10.SetActive (true);
+			topCover11.SetActive (true);
+
+			topBackground.SetActive (false);
+
+			bottomCover1.SetActive (false);
+			bottomCover2.SetActive (false);
+			bottomCover3.SetActive (false);
+			bottomCover4.SetActive (false);
+			bottomCover5.SetActive (false);
+			bottomCover6.SetActive (false);
+			bottomCover7.SetActive (false);
+			bottomCover8.SetActive (false);
+			bottomCover9.SetActive (false);
+			bottomCover10.SetActive (false);
+			bottomCover11.SetActive (false);
+
+			bottomBackground.SetActive (true);
 
 			enemiesAttached = 0;
 		}
@@ -358,12 +636,17 @@ public class playerMove : MonoBehaviour {
 
 		if (enemiesAttached == 1) {
 			moveAmount = 25;
-			renderer.color = new Color (255.0f, 255.0f, 255.0f, 0.75f);
+			renderer.color = new Color (255.0f, 255.0f, 255.0f, 0.50f);
 		}
 
 		if (enemiesAttached == 2) {
 			moveAmount = 10;
-			renderer.color = new Color (0f, 255.0f, 0f, 1f);
+			renderer.color = new Color (0f, 255/2f, 0f, 0.50f);
+		}
+
+		if (enemiesAttached == 3) {
+			moveAmount = 5;
+			renderer.color = new Color (0f, 255.0f, 0f, 0.25f);
 		}
 
 		transform.position = moving;
@@ -383,17 +666,29 @@ public class playerMove : MonoBehaviour {
 			grounded = true;
 			specialGrounded = false;
 			topGrounded = false;
+			botGrounded = false;
 			airborn = false;
 		}
 
 		if (coll.gameObject.tag == "ground2") {
 			specialGrounded = true;
 			grounded = true;
+			topGrounded = false;
+			botGrounded = false;
 			airborn = false;
 		}
 
 		if (coll.gameObject.tag == "ground3") {
 			topGrounded = true;
+			botGrounded = false;
+			specialGrounded = false;
+			grounded = false;
+			airborn = false;
+		}
+
+		if (coll.gameObject.tag == "ground4") {
+			topGrounded = false;
+			botGrounded = true;
 			specialGrounded = false;
 			grounded = false;
 			airborn = false;
@@ -470,6 +765,19 @@ public class playerMove : MonoBehaviour {
 				spriteRenderer.sprite = runningRight2A;
 			}
 		}
+
+		if (enemiesAttached == 3) {
+			runAnimation += Time.deltaTime;
+
+
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningRight1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningRight2A;
+			}
+		}
 	}
 
 	void runningLeftTop(){
@@ -502,6 +810,19 @@ public class playerMove : MonoBehaviour {
 
 		if (enemiesAttached == 2) {
 			runAnimation += Time.deltaTime * 3.5f;
+
+
+			if ((int)runAnimation % 2 == 1) {
+				spriteRenderer.sprite = runningLeft1A;
+			}
+
+			if ((int)runAnimation % 2 == 0) {
+				spriteRenderer.sprite = runningLeft2A;
+			}
+		}
+
+		if (enemiesAttached == 3) {
+			runAnimation += Time.deltaTime;
 
 
 			if ((int)runAnimation % 2 == 1) {
