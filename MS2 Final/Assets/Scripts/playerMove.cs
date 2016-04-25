@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class playerMove : MonoBehaviour {
 
 	public GameObject player;
+
+	public AudioSource AudioSource1;
+	public AudioSource AudioSource2;
+
+	public GameObject stressText;
+	public GameObject gameTimer;
+	public float stress = 0f;
+	private float stressFlash = 0.0f;
+
+	private float gameTime = 151f;
 
 	public GameObject topCover1;
 	public GameObject bottomCover1;
@@ -91,6 +102,8 @@ public class playerMove : MonoBehaviour {
 
 		renderer = GetComponent<SpriteRenderer>();
 
+		AudioSource1.Play();
+
 //		SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
 
 		top = true;
@@ -147,6 +160,8 @@ public class playerMove : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		gameTime -= Time.deltaTime;
 
 		Vector3 moving = new Vector3 (transform.position.x,
 			transform.position.y,
@@ -441,6 +456,13 @@ public class playerMove : MonoBehaviour {
 			bottomCover11.SetActive (true);
 
 			bottomBackground.SetActive (false);
+
+			if (AudioSource2 == true) {
+				AudioSource2.Pause ();
+				AudioSource1.Play ();
+			} else {
+				AudioSource1.Play ();
+			}
 		}
 
 		if (Input.GetKeyDown (KeyCode.S) && grounded == true && specialGrounded == false) {
@@ -479,6 +501,13 @@ public class playerMove : MonoBehaviour {
 			bottomBackground.SetActive (true);
 
 			enemiesAttached = 0;
+
+			if (AudioSource1 == true) {
+				AudioSource1.Pause ();
+				AudioSource2.Play ();
+			} else {
+				AudioSource2.Play ();
+			}
 		}
 
 		if (Input.GetKeyDown (KeyCode.W) && topGrounded == true && specialGrounded == false) {
@@ -515,6 +544,13 @@ public class playerMove : MonoBehaviour {
 			bottomCover11.SetActive (true);
 
 			bottomBackground.SetActive (false);
+
+			if (AudioSource2 == true) {
+				AudioSource2.Pause ();
+				AudioSource1.Play ();
+			} else {
+				AudioSource1.Play ();
+			}
 		}
 
 		if (Input.GetKeyDown (KeyCode.S) && topGrounded == true && specialGrounded == false) {
@@ -553,6 +589,13 @@ public class playerMove : MonoBehaviour {
 			bottomBackground.SetActive (true);
 
 			enemiesAttached = 0;
+
+			if (AudioSource1 == true) {
+				AudioSource1.Pause ();
+				AudioSource2.Play ();
+			} else {
+				AudioSource2.Play ();
+			}
 		}
 
 		if (Input.GetKeyDown (KeyCode.W) && botGrounded == true && specialGrounded == false) {
@@ -589,6 +632,13 @@ public class playerMove : MonoBehaviour {
 			bottomCover11.SetActive (true);
 
 			bottomBackground.SetActive (false);
+
+			if (AudioSource2 == true) {
+				AudioSource2.Pause ();
+				AudioSource1.Play ();
+			} else {
+				AudioSource1.Play ();
+			}
 		}
 
 		if (Input.GetKeyDown (KeyCode.S) && botGrounded == true && specialGrounded == false) {
@@ -627,6 +677,13 @@ public class playerMove : MonoBehaviour {
 			bottomBackground.SetActive (true);
 
 			enemiesAttached = 0;
+
+			if (AudioSource1 == true) {
+				AudioSource1.Pause ();
+				AudioSource2.Play ();
+			} else {
+				AudioSource2.Play ();
+			}
 		}
 
 		if (enemiesAttached == 0) {
@@ -637,16 +694,26 @@ public class playerMove : MonoBehaviour {
 		if (enemiesAttached == 1) {
 			moveAmount = 25;
 			renderer.color = new Color (255.0f, 255.0f, 255.0f, 0.50f);
+
+			stress += Time.deltaTime;
 		}
 
 		if (enemiesAttached == 2) {
 			moveAmount = 10;
 			renderer.color = new Color (0f, 255/2f, 0f, 0.50f);
+
+			stress += Time.deltaTime * 2;
 		}
 
 		if (enemiesAttached == 3) {
 			moveAmount = 5;
 			renderer.color = new Color (0f, 255.0f, 0f, 0.25f);
+
+			stress += Time.deltaTime * 4;
+		}
+
+		if (bot == true && stress > 0) {
+			stress -= Time.deltaTime;
 		}
 
 		transform.position = moving;
@@ -658,6 +725,45 @@ public class playerMove : MonoBehaviour {
 //		if (bot == true) {
 //			player.transform.rotation = Quaternion.Euler (0, 0, 180);
 //		}
+
+		if (stress >= 100 && Application.loadedLevel == 0) {
+			Application.LoadLevel ("GameLose");
+		}
+
+		if (stress >= 100 && Application.loadedLevel == 2) {
+			Application.LoadLevel ("GameLose1");
+		}
+
+		if (gameTime <= 0 && Application.loadedLevel == 0) {
+			Application.LoadLevel ("GameLose");
+		}
+
+		if (gameTime <= 0 && Application.loadedLevel == 2) {
+			Application.LoadLevel ("GameLose1");
+		}
+
+		Text stressMeter = stressText.GetComponent<Text>();
+		stressMeter.text = "Stress: " + (int)stress;
+
+		Text timeMeter = gameTimer.GetComponent<Text>();
+		timeMeter.text = "Time: " + (int)gameTime;
+
+		if (stress >= 90) {
+
+			stressFlash += Time.deltaTime*5;
+
+
+			if((int)stressFlash%2==1){
+				stressMeter.color = new Color (1f, 0f, 0f);
+			}
+
+			if((int)stressFlash%2==0){
+				stressMeter.color = new Color (1f, 1f, 1f);
+			}
+
+		} else {
+			stressMeter.color = new Color (1f, 1f, 1f);
+		}
 
 	}
 
@@ -695,7 +801,6 @@ public class playerMove : MonoBehaviour {
 		}
 
 		if (coll.gameObject.tag == "enemy") {
-
 			enemiesAttached++;
 		}
 
